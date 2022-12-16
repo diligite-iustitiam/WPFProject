@@ -1,12 +1,13 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace WPFProject.ViewModels.Base
 {
-    internal abstract class ViewModelBase : INotifyPropertyChanged
+    internal abstract class ViewModelBase : INotifyPropertyChanged, IDisposable
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-
+       
         protected virtual void OnPropertyChanged([CallerMemberName] string PropertyName=null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
@@ -17,6 +18,22 @@ namespace WPFProject.ViewModels.Base
             if(Equals(field,value)) return false;
             field = value;
             return true;
+        }
+
+        //~ViewModelBase()
+        //{
+        //    Dispose(false);
+        //}
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        private bool _Disposed;
+
+        protected virtual void Dispose(bool Disposing)
+        {
+            if (!Disposing || _Disposed) return;
+            _Disposed = true; 
         }
     }
 }
