@@ -4,6 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFProject"
+        xmlns:cmd="clr-namespace:WPFProject.Infrastructure.Commands"
+        xmlns:fa="http://schemas.fontawesome.com/icons/"
         mc:Ignorable="d"
         xmlns:vm="clr-namespace:WPFProject.ViewModels"
         Title="{Binding Title}" Height="450" Width="800">
@@ -13,7 +15,12 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="File">
-                <MenuItem Header="Exit"/>
+                <!--<MenuItem Header="Exit" Command="{Binding CloseApplicationCommand}"/>-->
+                <MenuItem Header="Exit">
+                    <MenuItem.Command>
+                        <cmd:CloseApplicationCommand/>
+                    </MenuItem.Command>
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="Help"></MenuItem>
         </Menu>
@@ -26,7 +33,13 @@
             </StatusBarItem>
         </StatusBar>
         <TabControl>
-            <TabItem Header="Tab 1">
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <fa:ImageAwesome Icon="Regular_File" Height="13" Margin="0,0,5,0"></fa:ImageAwesome>
+                    <TextBlock Text="Tab 1"/>
+                    </StackPanel>
+                </TabItem.Header>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
