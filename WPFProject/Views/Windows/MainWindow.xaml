@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:WPFProject"
         xmlns:cmd="clr-namespace:WPFProject.Infrastructure.Commands"
         xmlns:fa="http://schemas.fontawesome.com/icons/"
+        xmlns:oxy="http://oxyplot.org/wpf"
         mc:Ignorable="d"
         xmlns:vm="clr-namespace:WPFProject.ViewModels"
         Title="{Binding Title}" Height="450" Width="800">
@@ -23,6 +24,17 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="Help"></MenuItem>
+            <MenuItem Command="{Binding ChangeTabIndexCommand}" CommandParameter="-1">
+                <MenuItem.Header>
+                    <fa:ImageAwesome Height="12" Icon="Regular_ArrowAltCircleLeft"/>
+                </MenuItem.Header>
+            </MenuItem>
+            <MenuItem Command="{Binding ChangeTabIndexCommand}" CommandParameter="+1">
+                <MenuItem.Header>
+                    <fa:ImageAwesome Height="12" Icon="Regular_ArrowAltCircleRight"/>
+                </MenuItem.Header>
+            </MenuItem>
+            <MenuItem Header="{Binding SelectedPageIndex}" IsEnabled="False"/>
         </Menu>
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem MinWidth="150" MaxWidth="350">
@@ -32,7 +44,7 @@
                 <ProgressBar Width="120" Height="15" Value="30"></ProgressBar>
             </StatusBarItem>
         </StatusBar>
-        <TabControl>
+        <TabControl SelectedIndex="{Binding SelectedPageIndex}">
             <TabItem>
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
@@ -51,7 +63,21 @@
                     </Grid.ColumnDefinitions>
                 </Grid>
             </TabItem>
-            <TabItem Header="Tab 2"></TabItem>
+            <TabItem Header="Graphic">
+                <oxy:Plot>
+                    <oxy:Plot.Axes>
+                        <oxy:LinearAxis Position="Left"/>
+                        <oxy:LinearAxis Position="Bottom"/>
+                    </oxy:Plot.Axes>
+                    <oxy:LineSeries Color="Red"
+                                    ItemsSource="{Binding TestDataPoints}"
+                                    DataFieldX="XValue"
+                                    DataFieldY="YValue"/>
+                </oxy:Plot>
+            </TabItem>
+            <TabItem Header="Tab 3"></TabItem>
+            <TabItem Header="Tab 4"></TabItem>
+            <TabItem Header="Tab 5"></TabItem>
         </TabControl>
     </DockPanel>
 </Window>

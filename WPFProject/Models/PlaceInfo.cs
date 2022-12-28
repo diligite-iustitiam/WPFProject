@@ -30,7 +30,7 @@ namespace WPFProject.Models
 
     internal struct DataPoint
     {
-        public int XValue { get; set; }
-        public int YValue { get; set; } 
+        public double XValue { get; set; }
+        public double YValue { get; set; } 
     }
 }
