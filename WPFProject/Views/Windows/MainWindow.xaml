@@ -53,14 +53,29 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <GroupBox Grid.Column="0" Header="Groups">
-                        <ListBox ItemsSource="{Binding Groups}" SelectedIndex="0"
-                                 DisplayMemberPath="GroupName" SelectedItem="{Binding SelectedGroup}"/>
+                        <DockPanel>
+                            <UniformGrid DockPanel.Dock="Bottom" Rows="1" Margin="0,3">
+                                <Button Content="Create" Margin="0,0,3,0" Command="{Binding CreateGroupCommand}"/>
+                                <Button Content="Delete" Command="{Binding DeleteGroupCommand}" CommandParameter="{Binding SelectedGroup}"/>
+                            </UniformGrid>
+                            <ListBox ItemsSource="{Binding Groups}" SelectedIndex="0"
+                                  SelectedItem="{Binding SelectedGroup}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate DataType="decanat:Group">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding GroupName}"/>
+                                        <TextBlock Text="{Binding Students.Count, StringFormat=[Students:{0}]}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        </DockPanel>
                     </GroupBox>
                     <GroupBox Grid.Column="1" Header="{Binding SelectedGroup.GroupName,
                         StringFormat='Students of the group', FallbackValue='Students',
                         TargetNullValue='Group is not selected'}">
                         <DataGrid ItemsSource="{Binding SelectedGroup.Students}" AutoGenerateColumns="False"
-                                  IsReadOnly="True"
+                                  CanUserAddRows="False"
                                   GridLinesVisibility="Vertical"
                                   VerticalGridLinesBrush="DarkGray"
                                   AlternatingRowBackground="LightGray">
@@ -72,9 +87,14 @@
                                 <DataGridTemplateColumn Header="Birthday">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate DataType="decanat:Student">
-                                            <DatePicker SelectedDate="{Binding StudentBirthday}"/>
+                                            <TextBlock Text="{Binding StudentBirthday, StringFormat='dd.MM.yyyy'}"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
+                                    <DataGridTemplateColumn.CellEditingTemplate>
+                                        <DataTemplate DataType="decanat:Student">
+                                            <DatePicker SelectedDate="{Binding StudentBirthday}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellEditingTemplate>
                                 </DataGridTemplateColumn>
                                 <DataGridTextColumn Header="Rating" Binding="{Binding Rating}"/>
                                 <DataGridTextColumn Header="Group" Binding="{Binding DataContext.SelectedGroup.GroupName, RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
