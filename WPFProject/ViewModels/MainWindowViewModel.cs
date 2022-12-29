@@ -1,16 +1,27 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using WPFProject.Infrastructure.Commands;
 using WPFProject.Models;
+using WPFProject.Models.Decanat;
 using WPFProject.ViewModels.Base;
 
 namespace WPFProject.ViewModels
 {
     internal class MainWindowViewModel : ViewModelBase
     {
+        public ObservableCollection<Group> Groups { get; }
+
+        #region SelectedGroup
+        private Group _SelectedGroup;
+
+        public Group SelectedGroup { get => _SelectedGroup; set => Set(ref _SelectedGroup, value); }
+        #endregion
+
         #region ChangeTabIndexCommand
 
         private int _SelectedPageIndex = 0;
@@ -91,6 +102,21 @@ namespace WPFProject.ViewModels
                 });
             }
             TestDataPoints = data_points;
+
+            var student_index = 1;
+            var students = Enumerable.Range(1, 10).Select(i => new Student
+            {
+                StudentName = $"Name{student_index}",
+                Surname = $"Surname{student_index}",
+                Patronymic = $"Patronymic{student_index++}",
+                StudentBirthday = DateTime.Now,
+                Rating = 0
+            });
+            var groups = Enumerable.Range(1, 20).Select(i => new Group{
+                GroupName = $"Group{i}",
+                Students = new ObservableCollection<Student>(students)
+            });
+            Groups = new ObservableCollection<Group>(groups);
         }
     }
 }
