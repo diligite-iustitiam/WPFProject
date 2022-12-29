@@ -13,6 +13,6 @@ namespace WPFProject.Models.Decanat
         public string? Patronymic { get; set; }
         public DateTime? StudentBirthday { get; set; }
         public double Rating { get; set; }
-
+        public string? Description { get; set; }
     }
 }

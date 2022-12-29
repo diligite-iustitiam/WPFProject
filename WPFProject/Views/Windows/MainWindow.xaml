@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFProject"
+        xmlns:decanat="clr-namespace:WPFProject.Models.Decanat"
         xmlns:cmd="clr-namespace:WPFProject.Infrastructure.Commands"
         xmlns:fa="http://schemas.fontawesome.com/icons/"
         xmlns:oxy="http://oxyplot.org/wpf"
@@ -58,14 +59,26 @@
                     <GroupBox Grid.Column="1" Header="{Binding SelectedGroup.GroupName,
                         StringFormat='Students of the group', FallbackValue='Students',
                         TargetNullValue='Group is not selected'}">
-                        <DataGrid ItemsSource="{Binding SelectedGroup.Students}" AutoGenerateColumns="False" IsReadOnly="True">
+                        <DataGrid ItemsSource="{Binding SelectedGroup.Students}" AutoGenerateColumns="False"
+                                  IsReadOnly="True"
+                                  GridLinesVisibility="Vertical"
+                                  VerticalGridLinesBrush="DarkGray"
+                                  AlternatingRowBackground="LightGray">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Surname" Binding="{Binding Surname}"/>
                                 <DataGridTextColumn Header="Name" Binding="{Binding StudentName}"/>
                                 <DataGridTextColumn Header="Patronymic" Binding="{Binding Patronymic}"/>
-                                <DataGridTextColumn Header="BirthDate" Binding="{Binding StudentBirthday, StringFormat=dd.MM.yyyy}"/>
+                                <!--<DataGridTextColumn Header="BirthDate" Binding="{Binding StudentBirthday, StringFormat=dd.MM.yyyy}"/>-->
+                                <DataGridTemplateColumn Header="Birthday">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="decanat:Student">
+                                            <DatePicker SelectedDate="{Binding StudentBirthday}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
                                 <DataGridTextColumn Header="Rating" Binding="{Binding Rating}"/>
                                 <DataGridTextColumn Header="Group" Binding="{Binding DataContext.SelectedGroup.GroupName, RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
+                                <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*"/>
                             </DataGrid.Columns>
                             
                         </DataGrid>
