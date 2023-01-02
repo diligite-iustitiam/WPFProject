@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFProject"
+        xmlns:decanat="clr-namespace:WPFProject.Models.Decanat"
         xmlns:cmd="clr-namespace:WPFProject.Infrastructure.Commands"
         xmlns:fa="http://schemas.fontawesome.com/icons/"
         xmlns:oxy="http://oxyplot.org/wpf"
@@ -45,24 +46,72 @@
             </StatusBarItem>
         </StatusBar>
         <TabControl SelectedIndex="{Binding SelectedPageIndex}">
-            <TabItem>
-                <TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <fa:ImageAwesome Icon="Regular_File" Height="13" Margin="0,0,5,0"></fa:ImageAwesome>
-                    <TextBlock Text="Tab 1"/>
-                    </StackPanel>
-                </TabItem.Header>
+            <TabItem Header="Students" Height="20" VerticalAlignment="Top">
                 <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                    </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="250"/>
+                        <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
+                    <GroupBox Grid.Column="0" Header="Groups">
+                        <DockPanel>
+                            <UniformGrid DockPanel.Dock="Bottom" Rows="1" Margin="0,3">
+                                <UniformGrid.Resources>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Margin" Value="3,0"/>
+                                        <Setter Property="Padding" Value="3,5"/>
+                                        <Setter Property="Background" Value="White"/>
+                                    </Style>
+                                </UniformGrid.Resources>
+                                <Button Content="Add" Padding="0,7" Style="{StaticResource CheckButtonStyle}" Command="{Binding CreateGroupCommand}"/>
+                                <Button Content="Delete" Padding="0,7" Style="{StaticResource RemoveButtonStyle}" Command="{Binding DeleteGroupCommand}" CommandParameter="{Binding SelectedGroup}"/>
+                            </UniformGrid>
+                            <ListBox ItemsSource="{Binding Groups}" SelectedIndex="0"
+                                  SelectedItem="{Binding SelectedGroup}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate DataType="decanat:Group">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding GroupName}"/>
+                                        <TextBlock Text="{Binding Students.Count, StringFormat=[Students:{0}]}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        </DockPanel>
+                    </GroupBox>
+                    <GroupBox Grid.Column="1" Header="{Binding SelectedGroup.GroupName,
+                        StringFormat='Students of the group', FallbackValue='Students',
+                        TargetNullValue='Group is not selected'}">
+                        <DataGrid ItemsSource="{Binding SelectedGroup.Students}" AutoGenerateColumns="False"
+                                  CanUserAddRows="False"
+                                  GridLinesVisibility="Vertical"
+                                  VerticalGridLinesBrush="DarkGray"
+                                  AlternatingRowBackground="LightGray">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Surname" Binding="{Binding Surname}"/>
+                                <DataGridTextColumn Header="Name" Binding="{Binding StudentName}"/>
+                                <DataGridTextColumn Header="Patronymic" Binding="{Binding Patronymic}"/>
+                                <!--<DataGridTextColumn Header="BirthDate" Binding="{Binding StudentBirthday, StringFormat=dd.MM.yyyy}"/>-->
+                                <DataGridTemplateColumn Header="Birthday">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="decanat:Student">
+                                            <TextBlock Text="{Binding StudentBirthday, StringFormat='dd.MM.yyyy'}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                    <DataGridTemplateColumn.CellEditingTemplate>
+                                        <DataTemplate DataType="decanat:Student">
+                                            <DatePicker SelectedDate="{Binding StudentBirthday}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="Rating" Binding="{Binding Rating}"/>
+                                <DataGridTextColumn Header="Group" Binding="{Binding DataContext.SelectedGroup.GroupName, RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
+                                <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*"/>
+                            </DataGrid.Columns>
+                            
+                        </DataGrid>
+                    </GroupBox>
                 </Grid>
-            </TabItem>
+            </TabItem>              
             <TabItem Header="Graphic">
                 <oxy:Plot>
                     <oxy:Plot.Axes>
