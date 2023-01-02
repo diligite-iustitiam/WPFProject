@@ -62,9 +62,8 @@
                                         <Setter Property="Background" Value="White"/>
                                     </Style>
                                 </UniformGrid.Resources>
-                                <Button Content="Create" Style="{StaticResource PrimaryBtn}" Command="{Binding CreateGroupCommand}"/>
-                                <Button Content="Delete" Style="{StaticResource DangerBtn}" Command="{Binding DeleteGroupCommand}"
-                                        CommandParameter="{Binding SelectedGroup}"/>
+                                <Button Content="Add" Padding="0,7" Style="{StaticResource CheckButtonStyle}" Command="{Binding CreateGroupCommand}"/>
+                                <Button Content="Delete" Padding="0,7" Style="{StaticResource RemoveButtonStyle}" Command="{Binding DeleteGroupCommand}" CommandParameter="{Binding SelectedGroup}"/>
                             </UniformGrid>
                             <ListBox ItemsSource="{Binding Groups}" SelectedIndex="0"
                                   SelectedItem="{Binding SelectedGroup}">
