@@ -111,8 +111,8 @@
                         </DataGrid>
                     </GroupBox>
                 </Grid>
-            </TabItem>              
-            <TabItem Header="Graphic">
+            </TabItem>
+            <!--<TabItem Header="Graphic">
                 <oxy:Plot>
                     <oxy:Plot.Axes>
                         <oxy:LinearAxis Position="Left"/>
@@ -123,10 +123,7 @@
                                     DataFieldX="XValue"
                                     DataFieldY="YValue"/>
                 </oxy:Plot>
-            </TabItem>
-            <TabItem Header="Tab 3"></TabItem>
-            <TabItem Header="Tab 4"></TabItem>
-            <TabItem Header="Tab 5"></TabItem>
+            </TabItem>-->
         </TabControl>
     </DockPanel>
 </Window>
